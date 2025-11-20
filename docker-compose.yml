@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+    db:
+        image: mysql:8.0
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: servernode
+        ports:
+            - '3309:3306'
+        healthcheck:
+            test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        volumes:
+            - db_data:/var/lib/mysql
+
+    app:
+        build: .
+        command: pnpm start:prod
+        env_file:
+            - .env.example
+        ports:
+            - '3000:3000'
+        depends_on:
+            db:
+                condition: service_healthy
+        volumes:
+            - ./:/app
+        environment:
+            DB_HOST: db
+            DB_PORT: 3306
+            DB_USERNAME: root
+            DB_PASSWORD: password
+            DB_DATABASE: servernode
+
+volumes:
+    db_data:
