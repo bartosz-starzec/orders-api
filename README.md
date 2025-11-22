@@ -1,4 +1,3 @@
-
 # Interview Task API
 
 RESTful API for managing Users, Organizations, and Orders. Built with Node.js, TypeScript, NestJS, MySQL, and Docker.
