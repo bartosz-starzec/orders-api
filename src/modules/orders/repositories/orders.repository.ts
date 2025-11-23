@@ -1,9 +1,4 @@
-import {
-    Injectable,
-    NotFoundException,
-    Inject,
-    LoggerService,
-} from '@nestjs/common';
+import { Injectable, NotFoundException, Inject, LoggerService } from '@nestjs/common';
 import { Repository, DataSource } from 'typeorm';
 import { Order } from '../entities/order.entity';
 import { randomUUID } from 'crypto';
@@ -15,7 +10,7 @@ export class OrdersRepository {
 
     constructor(
         private dataSource: DataSource,
-        @Inject('WinstonLogger') private readonly logger: LoggerService,
+        @Inject('WinstonLogger') private readonly logger: LoggerService
     ) {
         this.repo = this.dataSource.getRepository(Order);
     }

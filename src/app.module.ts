@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { WinstonLogger } from './common/logger/winston-logger.provider';
 import { HeaderLoggingInterceptor } from './common/interceptors/header-logging.interceptor';
+import { CacheInterceptor } from './common/interceptors/cache.interceptor';
+import { HttpCacheService } from './common/cache/http-cache.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import * as path from 'path';
@@ -42,6 +44,7 @@ import { AuthModule } from './modules/auth/auth.module';
         OrdersRepository,
         OrganizationsService,
         OrganizationsRepository,
+        HttpCacheService,
         {
             provide: 'WinstonLogger',
             useClass: WinstonLogger,
@@ -49,6 +52,10 @@ import { AuthModule } from './modules/auth/auth.module';
         {
             provide: APP_INTERCEPTOR,
             useClass: HeaderLoggingInterceptor,
+        },
+        {
+            provide: APP_INTERCEPTOR,
+            useClass: CacheInterceptor,
         },
     ],
     controllers: [UsersController, OrganizationsController, OrdersController, HealthController],
