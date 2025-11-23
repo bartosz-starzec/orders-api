@@ -15,10 +15,4 @@ export class Organization {
 
     @Column({ type: 'date' })
     dateFounded: Date;
-
-    @OneToMany(() => User, (user) => user.organization)
-    users: User[];
-
-    @OneToMany(() => Order, (order) => order.organization)
-    orders: Order[];
 }

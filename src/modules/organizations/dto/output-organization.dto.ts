@@ -10,6 +10,6 @@ export class OrganizationDto {
     @ApiProperty()
     industry: string;
 
-    @ApiProperty({ type: String, format: 'date-time' })
+    @ApiProperty({ type: String, format: 'date' })
     dateFounded: string;
 }

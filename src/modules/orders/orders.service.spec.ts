@@ -46,25 +46,21 @@ describe('OrdersService', () => {
             email: 'a@b.com',
             organizationId: 'org-1',
             dateCreated: new Date(),
-            organization: {} as Organization,
-            orders: [],
         } as User);
+
         orgsRepo.findOne.mockResolvedValue({
             id: 'org-1',
             name: 'Org',
             industry: 'IT',
             dateFounded: new Date(),
-            users: [],
-            orders: [],
         } as Organization);
+
         ordersRepo.create.mockResolvedValue({
             id: 'order-1',
             userId: 'user-1',
             organizationId: 'org-1',
             totalAmount: 100,
             orderDate: new Date(),
-            user: {} as User,
-            organization: {} as Organization,
         } as Order);
 
         const result = await service.create({
@@ -73,6 +69,7 @@ describe('OrdersService', () => {
             totalAmount: 100,
             orderDate: new Date(),
         });
+
         expect(result).toMatchObject({
             id: 'order-1',
             userId: 'user-1',
@@ -92,6 +89,7 @@ describe('OrdersService', () => {
         usersRepo.findOne.mockResolvedValue(undefined as unknown as User);
         usersRepo.findOne.mockResolvedValueOnce(undefined as any);
         orgsRepo.findOne.mockResolvedValue(undefined as unknown as Organization);
+
         await expect(
             service.create({
                 userId: 'missing',
@@ -111,11 +109,10 @@ describe('OrdersService', () => {
             email: 'a@b.com',
             organizationId: 'org-1',
             dateCreated: new Date(),
-            organization: {} as Organization,
-            orders: [],
-        } as User);
+        });
         orgsRepo.findOne.mockResolvedValue(undefined as unknown as Organization);
         orgsRepo.findOne.mockResolvedValueOnce(undefined as unknown as Organization);
+
         await expect(
             service.create({
                 userId: 'user-1',

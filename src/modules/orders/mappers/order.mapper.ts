@@ -4,7 +4,7 @@ import { OrderDto } from '../dto/output-order.dto';
 export function toOrderDto(order: Order): OrderDto {
     const dto: OrderDto = {
         id: order.id,
-        orderDate: order.orderDate.toISOString(),
+        orderDate: order.orderDate.toString(),
         totalAmount: Number(order.totalAmount),
         userId: order.userId,
         organizationId: order.organizationId,

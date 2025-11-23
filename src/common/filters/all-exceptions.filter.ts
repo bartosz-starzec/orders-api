@@ -28,7 +28,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
             }
         } else if (exception instanceof Error) {
             message = exception.message;
-            Logger.error('[Unhandled Exception]', exception.stack || exception);
+            Logger.error('[Unhandled Exception]', exception.message || exception);
         }
 
         const payload = {

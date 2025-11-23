@@ -69,7 +69,7 @@ async function seed() {
         const order = orderRepo.create({
             id: randomUUID(),
             orderDate: randomDateInPast(),
-            totalAmount: parseFloat((Math.random() * 1000 + 50).toFixed(2)),
+            totalAmount: Math.random() * 1000 + 50,
             userId: user.id,
             organizationId: org.id,
         });

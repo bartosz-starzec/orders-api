@@ -14,9 +14,8 @@ export class CreateOrders1680000000002 implements MigrationInterface {
                     },
                     {
                         name: 'totalAmount',
-                        type: 'decimal',
+                        type: 'int',
                         precision: 10,
-                        scale: 2,
                         isNullable: false,
                     },
                     { name: 'userId', type: 'varchar', isNullable: false },

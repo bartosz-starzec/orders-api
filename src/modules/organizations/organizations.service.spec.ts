@@ -31,7 +31,9 @@ describe('OrganizationsService', () => {
             data: [{ id: 'org-1', name: 'Org1' } as Organization],
             total: 1,
         });
+
         const result = await service.findAll(1, 10);
+
         expect(result.data.length).toBe(1);
         expect(result.total).toBe(1);
     });
@@ -41,7 +43,9 @@ describe('OrganizationsService', () => {
             id: 'org-1',
             name: 'Org1',
         } as Organization);
+
         const result = await service.findOne('org-1');
+
         expect(result.id).toBe('org-1');
     });
 
@@ -50,8 +54,10 @@ describe('OrganizationsService', () => {
             id: 'org-1',
             name: 'Org1',
         } as Organization);
+
         const dto = { name: 'Org1', industry: 'IT', dateFounded: new Date() };
         const result = await service.create(dto);
+
         expect(result.id).toBe('org-1');
         expect(orgRepo.create).toHaveBeenCalledWith(dto);
     });
@@ -61,15 +67,18 @@ describe('OrganizationsService', () => {
             id: 'org-1',
             name: 'Org1-upd',
         } as Organization);
+
         const dto = { name: 'Org1-upd' };
         const result = await service.update('org-1', dto);
+
         expect(result.id).toBe('org-1');
         expect(result.name).toBe('Org1-upd');
         expect(orgRepo.update).toHaveBeenCalledWith('org-1', dto);
     });
 
     it('should remove an organization', async () => {
-        orgRepo.remove.mockResolvedValue({} as any);
+        orgRepo.remove.mockResolvedValue();
+
         await expect(service.remove('org-1')).resolves.toBeDefined();
         expect(orgRepo.remove).toHaveBeenCalledWith('org-1');
     });

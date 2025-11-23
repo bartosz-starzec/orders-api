@@ -10,13 +10,13 @@ import { UserDto } from './dto/output-user.dto';
 @Injectable()
 export class UsersService {
     constructor(
-        private readonly usersRepo: UsersRepository,
+        private readonly usersRepository: UsersRepository,
         private readonly organizationsRepository: OrganizationsRepository,
         @Inject('WinstonLogger') private readonly logger: LoggerService
     ) {}
 
     public async findAll(page: number = 1, limit: number = 10): Promise<PaginatedResult<UserDto>> {
-        const { data, total } = await this.usersRepo.findAll(page, limit);
+        const { data, total } = await this.usersRepository.findAll(page, limit);
 
         return {
             data: data.map(toUserDto),
@@ -25,7 +25,7 @@ export class UsersService {
     }
 
     public async findOne(id: string): Promise<UserDto> {
-        const user = await this.usersRepo.findOne(id);
+        const user = await this.usersRepository.findOne(id);
 
         return toUserDto(user);
     }
@@ -37,7 +37,7 @@ export class UsersService {
             throw new NotFoundException(`Organization with id ${dto.organizationId} not found`);
         }
 
-        const created = await this.usersRepo.create(dto);
+        const created = await this.usersRepository.create(dto);
 
         this.logger.log('User created (service)', { id: created.id });
 
@@ -45,7 +45,7 @@ export class UsersService {
     }
 
     public async update(id: string, dto: UpdateUserDto): Promise<UserDto> {
-        const user = await this.usersRepo.findOne(id);
+        const user = await this.usersRepository.findOne(id);
         if (!user) {
             throw new NotFoundException(`User not found`);
         }
@@ -55,10 +55,9 @@ export class UsersService {
             if (!org) {
                 throw new NotFoundException(`Organization not found`);
             }
-            user.organization = org;
         }
 
-        const updated = await this.usersRepo.update(id, dto);
+        const updated = await this.usersRepository.update(id, dto);
 
         this.logger.log('User updated (service)', { id: updated.id });
 
@@ -66,7 +65,7 @@ export class UsersService {
     }
 
     public async remove(id: string): Promise<void> {
-        await this.usersRepo.remove(id);
+        await this.usersRepository.remove(id);
 
         this.logger.log('User deleted (service)', { id });
     }

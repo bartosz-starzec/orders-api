@@ -17,7 +17,6 @@ export class UsersRepository {
 
     async findAll(page = 1, limit = 10): Promise<PaginatedResult<User>> {
         const [data, total] = await this.repository.findAndCount({
-            relations: ['organization', 'orders'],
             skip: (page - 1) * limit,
             take: limit,
             order: { dateCreated: 'DESC' },
@@ -32,7 +31,6 @@ export class UsersRepository {
     async findOne(id: string): Promise<User> {
         const user = await this.repository.findOne({
             where: { id },
-            relations: ['organization', 'orders'],
         });
 
         if (!user) {

@@ -6,6 +6,6 @@ export function toOrganizationDto(org: Organization): OrganizationDto {
         id: org.id,
         name: org.name,
         industry: org.industry,
-        dateFounded: org.dateFounded.toISOString(),
+        dateFounded: org.dateFounded.toString(),
     };
 }

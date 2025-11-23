@@ -17,19 +17,20 @@ export class OrganizationsRepository {
 
     async findAll(page = 1, limit = 10): Promise<PaginatedResult<Organization>> {
         const [data, total] = await this.repository.findAndCount({
-            relations: ['users', 'orders'],
             skip: (page - 1) * limit,
             take: limit,
             order: { dateFounded: 'DESC' },
         });
 
-        return { data, total };
+        return {
+            data,
+            total,
+        };
     }
 
     async findOne(id: string): Promise<Organization> {
         const org = await this.repository.findOne({
             where: { id },
-            relations: ['users', 'orders'],
         });
 
         if (!org) {

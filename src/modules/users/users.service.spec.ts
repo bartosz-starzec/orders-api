@@ -4,6 +4,7 @@ import { UsersRepository } from './repositories/users.repository';
 import { OrganizationsRepository } from '../organizations/repositories/organizations.repository';
 import { CreateUserDto, UpdateUserDto } from './dto';
 import { User } from './entities/user.entity';
+import { Organization } from '../organizations/entities/organization.entity';
 
 describe('UsersService', () => {
     let service: UsersService;
@@ -37,14 +38,18 @@ describe('UsersService', () => {
             data: [{ id: '1' } as User],
             total: 1,
         });
+
         const result = await service.findAll(1, 10);
+
         expect(result.data.length).toBe(1);
         expect(result.total).toBe(1);
     });
 
     it('should return a user by id', async () => {
         usersRepo.findOne.mockResolvedValue({ id: '1' } as User);
+
         const result = await service.findOne('1');
+
         expect(result.id).toBe('1');
     });
 
@@ -52,8 +57,8 @@ describe('UsersService', () => {
         orgsRepo.findOne.mockResolvedValue({ id: 'org-1' } as any);
         usersRepo.create.mockResolvedValue({
             id: '1',
-            organization: { id: 'org-1' },
         } as User);
+
         const dto = {
             firstName: 'A',
             lastName: 'B',
@@ -61,34 +66,37 @@ describe('UsersService', () => {
             organizationId: 'org-1',
         } as CreateUserDto;
         const result = await service.create(dto);
+
         expect(result.id).toBe('1');
         expect(orgsRepo.findOne).toHaveBeenCalledWith('org-1');
         expect(usersRepo.create).toHaveBeenCalled();
     });
 
     it('should throw if organization not found on create', async () => {
-        orgsRepo.findOne.mockResolvedValue(undefined as unknown as any);
+        orgsRepo.findOne.mockResolvedValue(undefined as unknown as Organization);
+
         const dto = {
             firstName: 'A',
             lastName: 'B',
             email: 'a@b.com',
             organizationId: 'org-x',
         } as CreateUserDto;
+
         await expect(service.create(dto)).rejects.toThrow(NotFoundException);
     });
 
     it('should update a user if found and org exists', async () => {
         usersRepo.findOne.mockResolvedValue({
             id: '1',
-            organization: { id: 'org-1' },
         } as User);
-        orgsRepo.findOne.mockResolvedValue({ id: 'org-2' } as any);
+        orgsRepo.findOne.mockResolvedValue({ id: 'org-2' } as Organization);
         usersRepo.update.mockResolvedValue({
             id: '1',
-            organization: { id: 'org-2' },
         } as User);
+
         const dto = { organizationId: 'org-2' } as UpdateUserDto;
         const result = await service.update('1', dto);
+
         expect(result.id).toBe('1');
         expect(orgsRepo.findOne).toHaveBeenCalledWith('org-2');
         expect(usersRepo.update).toHaveBeenCalled();
@@ -96,22 +104,26 @@ describe('UsersService', () => {
 
     it('should throw if user not found on update', async () => {
         usersRepo.findOne.mockResolvedValue(undefined as unknown as User);
+
         const dto = { firstName: 'A' } as UpdateUserDto;
+
         await expect(service.update('missing', dto)).rejects.toThrow(NotFoundException);
     });
 
     it('should throw if organization not found on update', async () => {
         usersRepo.findOne.mockResolvedValue({
             id: '1',
-            organization: { id: 'org-1' },
         } as User);
         orgsRepo.findOne.mockResolvedValue(undefined as unknown as any);
+
         const dto = { organizationId: 'org-x' } as UpdateUserDto;
+
         await expect(service.update('1', dto)).rejects.toThrow(NotFoundException);
     });
 
     it('should remove a user', async () => {
         usersRepo.remove.mockResolvedValue({} as any);
+
         await expect(service.remove('1')).resolves.toBeDefined();
         expect(usersRepo.remove).toHaveBeenCalledWith('1');
     });

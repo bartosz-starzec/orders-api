@@ -1,6 +1,4 @@
-import { Entity, PrimaryColumn, Column, ManyToOne, CreateDateColumn, JoinColumn, OneToMany } from 'typeorm';
-import { Organization } from '../../organizations/entities/organization.entity';
-import { Order } from '../../orders/entities/order.entity';
+import { Entity, PrimaryColumn, Column, CreateDateColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -21,11 +19,4 @@ export class User {
 
     @Column()
     organizationId: string;
-
-    @ManyToOne(() => Organization, (org) => org.users, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'organizationId' })
-    organization: Organization;
-
-    @OneToMany(() => Order, (order) => order.user)
-    orders: Order[];
 }
