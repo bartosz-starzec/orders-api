@@ -15,7 +15,7 @@ export class UsersRepository {
         this.repository = this.dataSource.getRepository(User);
     }
 
-    async findAll(page = 1, limit = 10): Promise<PaginatedResult<User>> {
+    async findAll(page = 1, limit = 10): Promise<{ data: User[]; total: number }> {
         const [data, total] = await this.repository.findAndCount({
             skip: (page - 1) * limit,
             take: limit,

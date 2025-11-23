@@ -4,7 +4,6 @@ import { UsersRepository } from '../users/repositories/users.repository';
 import { OrganizationsRepository } from '../organizations/repositories/organizations.repository';
 import { toOrderDto } from './mappers/order.mapper';
 import { OrderDto } from './dto/output-order.dto';
-import { PaginatedResult } from '../../common/types/paginated-result.type';
 import { Order } from './entities/order.entity';
 
 @Injectable()
@@ -16,7 +15,7 @@ export class OrdersService {
         @Inject('WinstonLogger') private readonly logger: LoggerService
     ) {}
 
-    public async findAll(page: number = 1, limit: number = 10): Promise<PaginatedResult<OrderDto>> {
+    public async findAll(page: number = 1, limit: number = 10): Promise<{ data: OrderDto[]; total: number }> {
         const { data, total } = await this.ordersRepo.findAll(page, limit);
 
         return {

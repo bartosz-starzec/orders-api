@@ -28,7 +28,14 @@ describe('OrganizationsService', () => {
 
     it('should return all organizations', async () => {
         orgRepo.findAll.mockResolvedValue({
-            data: [{ id: 'org-1', name: 'Org1' } as Organization],
+            data: [
+                {
+                    id: 'org-1',
+                    name: 'TestOrg',
+                    industry: 'Tech',
+                    dateFounded: new Date('2015-02-01'),
+                },
+            ],
             total: 1,
         });
 
@@ -41,8 +48,10 @@ describe('OrganizationsService', () => {
     it('should return an organization by id', async () => {
         orgRepo.findOne.mockResolvedValue({
             id: 'org-1',
-            name: 'Org1',
-        } as Organization);
+            name: 'TestOrg',
+            industry: 'Tech',
+            dateFounded: new Date('2015-02-01'),
+        });
 
         const result = await service.findOne('org-1');
 
@@ -52,10 +61,12 @@ describe('OrganizationsService', () => {
     it('should create an organization', async () => {
         orgRepo.create.mockResolvedValue({
             id: 'org-1',
-            name: 'Org1',
-        } as Organization);
+            name: 'TestOrg',
+            industry: 'Tech',
+            dateFounded: new Date('2015-02-01'),
+        });
 
-        const dto = { name: 'Org1', industry: 'IT', dateFounded: new Date() };
+        const dto = { name: 'TestOrg', industry: 'IT', dateFounded: new Date() };
         const result = await service.create(dto);
 
         expect(result.id).toBe('org-1');
@@ -65,21 +76,28 @@ describe('OrganizationsService', () => {
     it('should update an organization', async () => {
         orgRepo.update.mockResolvedValue({
             id: 'org-1',
-            name: 'Org1-upd',
-        } as Organization);
+            name: 'TestOrgUpdated',
+            industry: 'Tech',
+            dateFounded: new Date('2015-02-01'),
+        });
 
-        const dto = { name: 'Org1-upd' };
+        const dto = {
+            id: 'org-1',
+            name: 'TestOrgUpdated',
+            industry: 'Tech',
+            dateFounded: new Date('2015-02-01'),
+        };
         const result = await service.update('org-1', dto);
 
         expect(result.id).toBe('org-1');
-        expect(result.name).toBe('Org1-upd');
+        expect(result.name).toBe('TestOrgUpdated');
         expect(orgRepo.update).toHaveBeenCalledWith('org-1', dto);
     });
 
     it('should remove an organization', async () => {
         orgRepo.remove.mockResolvedValue();
 
-        await expect(service.remove('org-1')).resolves.toBeDefined();
+        await service.remove('org-1');
         expect(orgRepo.remove).toHaveBeenCalledWith('org-1');
     });
 });

@@ -1,7 +1,6 @@
 import { Inject, Injectable, LoggerService } from '@nestjs/common';
 import { OrganizationsRepository } from './repositories/organizations.repository';
 import { toOrganizationDto } from './mappers/organization.mapper';
-import { PaginatedResult } from '../../common/types/paginated-result.type';
 import { OrganizationDto } from './dto/output-organization.dto';
 
 @Injectable()
@@ -11,7 +10,7 @@ export class OrganizationsService {
         @Inject('WinstonLogger') private readonly logger: LoggerService
     ) {}
 
-    public async findAll(page: number = 1, limit: number = 10): Promise<PaginatedResult<OrganizationDto>> {
+    public async findAll(page: number = 1, limit: number = 10): Promise<{ data: OrganizationDto[]; total: number }> {
         const { data, total } = await this.orgRepo.findAll(page, limit);
 
         return {

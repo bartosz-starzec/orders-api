@@ -39,35 +39,51 @@ describe('OrdersService', () => {
     });
 
     it('should create an order (happy path)', async () => {
+        const orderDate = new Date();
+
         usersRepo.findOne.mockResolvedValue({
-            id: 'user-1',
-            firstName: 'A',
-            lastName: 'B',
-            email: 'a@b.com',
-            organizationId: 'org-1',
-            dateCreated: new Date(),
-        } as User);
+            id: '1',
+            firstName: 'Test',
+            lastName: 'User',
+            email: 'test@email.com',
+            organizationId: '1',
+            dateCreated: new Date('2024-10-01 12:12'),
+        });
 
         orgsRepo.findOne.mockResolvedValue({
             id: 'org-1',
-            name: 'Org',
-            industry: 'IT',
-            dateFounded: new Date(),
-        } as Organization);
+            name: 'TestOrg',
+            industry: 'Tech',
+            dateFounded: new Date('2015-02-01'),
+        });
 
         ordersRepo.create.mockResolvedValue({
             id: 'order-1',
             userId: 'user-1',
             organizationId: 'org-1',
             totalAmount: 100,
-            orderDate: new Date(),
-        } as Order);
+            orderDate: orderDate,
+            user: {
+                id: 'user-1',
+                firstName: 'Test',
+                lastName: 'User',
+                email: 'test@email.com',
+                organizationId: '1',
+                dateCreated: new Date('2024-10-01 12:12'),
+            },
+            organization: {
+                id: 'org-1',
+                name: 'TestOrg',
+                industry: 'Tech',
+                dateFounded: new Date('2015-02-01'),
+            },
+        });
 
         const result = await service.create({
             userId: 'user-1',
             organizationId: 'org-1',
             totalAmount: 100,
-            orderDate: new Date(),
+            orderDate: orderDate,
         });
 
         expect(result).toMatchObject({
@@ -82,6 +98,7 @@ describe('OrdersService', () => {
             userId: 'user-1',
             organizationId: 'org-1',
             totalAmount: 100,
+            orderDate: orderDate,
         });
     });
 

@@ -10,7 +10,7 @@ export class Order {
     @Column('date')
     orderDate: Date;
 
-    @Column('decimal')
+    @Column('int')
     totalAmount: number;
 
     @Column()

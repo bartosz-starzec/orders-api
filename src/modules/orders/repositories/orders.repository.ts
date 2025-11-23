@@ -15,7 +15,7 @@ export class OrdersRepository {
         this.repo = this.dataSource.getRepository(Order);
     }
 
-    async findAll(page = 1, limit = 10): Promise<PaginatedResult<Order>> {
+    async findAll(page = 1, limit = 10): Promise<{ data: Order[]; total: number }> {
         const [data, total] = await this.repo.findAndCount({
             relations: ['user', 'organization'],
             skip: (page - 1) * limit,

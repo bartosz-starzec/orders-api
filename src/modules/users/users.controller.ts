@@ -14,11 +14,8 @@ export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     @Get()
-    @ApiOkResponse({ type: UserDto, isArray: true })
-    async findAll(
-        @Query('page') page = 1,
-        @Query('limit') limit = 10
-    ): Promise<PaginatedResult<UserDto> & { page: number; limit: number }> {
+    @ApiOkResponse({ type: PaginatedResult<UserDto> })
+    async findAll(@Query('page') page = 1, @Query('limit') limit = 10): Promise<PaginatedResult<UserDto>> {
         const { data, total } = await this.usersService.findAll(page, limit);
         return { data, total, page, limit };
     }

@@ -7,6 +7,7 @@ RESTful API for managing Users, Organizations, and Orders. Built with Node.js, T
 ## Features
 
 - CRUD endpoints for Users, Organizations, Orders
+- LRU-Cache for GET requests
 - Pagination, validation, DTO mapping
 - Special endpoint: `GET /api/orders/{id}` returns order with user and organization
 - Swagger/OpenAPI docs at `/swagger`
@@ -51,7 +52,7 @@ docker-compose up --build
 
 ```bash
 # Run the seed script (inside the container or locally)
-pnpm tsx src/database/seed/seed.ts
+pnpm run seed
 ```
 
 ---
@@ -60,13 +61,14 @@ pnpm tsx src/database/seed/seed.ts
 
 - Swagger UI: [http://localhost:3000/swagger](http://localhost:3000/swagger)
 - All endpoints and schemas are documented.
+- To log in, send existing user's email to api/auth/login resource
 
 ---
 
 ## Health Checks
 
 - Liveness: `GET /health`
-- Readiness: `GET /readiness` (checks DB connection)
+- Readiness: `GET /readiness` (checks DB & cache connection)
 
 ---
 
@@ -75,12 +77,6 @@ pnpm tsx src/database/seed/seed.ts
 ```bash
 # Unit tests
 pnpm run test
-
-# E2E tests
-pnpm run test:e2e
-
-# Coverage
-pnpm run test:cov
 ```
 
 ---

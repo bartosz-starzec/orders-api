@@ -8,6 +8,6 @@ export function toUserDto(user: User): UserDto {
         lastName: user.lastName,
         email: user.email,
         organizationId: user.organizationId,
-        dateCreated: user.dateCreated.toISOString(),
+        dateCreated: user.dateCreated.toString(),
     };
 }

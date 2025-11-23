@@ -1,10 +1,8 @@
 import { Injectable, NotFoundException, LoggerService, Inject } from '@nestjs/common';
 import { UsersRepository } from './repositories/users.repository';
-import { User } from './entities/user.entity';
 import { CreateUserDto, UpdateUserDto } from './dto';
 import { OrganizationsRepository } from '../organizations/repositories/organizations.repository';
 import { toUserDto } from './mappers/user.mapper';
-import { PaginatedResult } from '../../common/types/paginated-result.type';
 import { UserDto } from './dto/output-user.dto';
 
 @Injectable()
@@ -15,7 +13,7 @@ export class UsersService {
         @Inject('WinstonLogger') private readonly logger: LoggerService
     ) {}
 
-    public async findAll(page: number = 1, limit: number = 10): Promise<PaginatedResult<UserDto>> {
+    public async findAll(page: number = 1, limit: number = 10): Promise<{ data: UserDto[]; total: number }> {
         const { data, total } = await this.usersRepository.findAll(page, limit);
 
         return {

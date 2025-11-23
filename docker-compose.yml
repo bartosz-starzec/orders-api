@@ -17,9 +17,9 @@ services:
 
     app:
         build: .
-        command: pnpm start:prod
+        command: pnpm start
         env_file:
-            - .env.example
+            - .env
         ports:
             - '3000:3000'
         depends_on:
@@ -30,9 +30,10 @@ services:
         environment:
             DB_HOST: db
             DB_PORT: 3306
-            DB_USERNAME: root
-            DB_PASSWORD: password
-            DB_DATABASE: servernode
+            DB_USER: root
+            DB_PASS: password
+            DB_NAME: servernode
+            JWT_SECRET: changeme
 
 volumes:
     db_data:

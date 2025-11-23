@@ -20,5 +20,9 @@
         "strictBindCallApply": false,
         "noFallthroughCasesInSwitch": false
     },
-    "include": ["src/**/*.ts", ".eslintrc.cjs"]
+    "include": [
+        "src/**/*.ts",
+        ".eslintrc.cjs",
+        "data-source.ts"
+    ]
 }

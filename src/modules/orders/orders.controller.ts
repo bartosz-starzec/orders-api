@@ -14,11 +14,8 @@ export class OrdersController {
     constructor(private readonly ordersService: OrdersService) {}
 
     @Get()
-    @ApiOkResponse({ type: OrderDto, isArray: true })
-    async findAll(
-        @Query('page') page = 1,
-        @Query('limit') limit = 10
-    ): Promise<PaginatedResult<OrderDto> & { page: number; limit: number }> {
+    @ApiOkResponse({ type: PaginatedResult<OrderDto>, isArray: true })
+    async findAll(@Query('page') page = 1, @Query('limit') limit = 10): Promise<PaginatedResult<OrderDto>> {
         const { data, total } = await this.ordersService.findAll(page, limit);
 
         return { data, total, page, limit };

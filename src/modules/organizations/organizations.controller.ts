@@ -14,11 +14,8 @@ export class OrganizationsController {
     constructor(private readonly organizationsService: OrganizationsService) {}
 
     @Get()
-    @ApiOkResponse({ type: OrganizationDto, isArray: true })
-    async findAll(
-        @Query('page') page = 1,
-        @Query('limit') limit = 10
-    ): Promise<PaginatedResult<OrganizationDto> & { page: number; limit: number }> {
+    @ApiOkResponse({ type: PaginatedResult<OrganizationDto>, isArray: true })
+    async findAll(@Query('page') page = 1, @Query('limit') limit = 10): Promise<PaginatedResult<OrganizationDto>> {
         const { data, total } = await this.organizationsService.findAll(page, limit);
 
         return {

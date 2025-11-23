@@ -2,7 +2,6 @@ import { Injectable, NotFoundException, Inject, LoggerService } from '@nestjs/co
 import { Repository, DataSource } from 'typeorm';
 import { Organization } from '../entities/organization.entity';
 import { randomUUID } from 'crypto';
-import { PaginatedResult } from '../../../common/types/paginated-result.type';
 
 @Injectable()
 export class OrganizationsRepository {
@@ -15,7 +14,7 @@ export class OrganizationsRepository {
         this.repository = this.dataSource.getRepository(Organization);
     }
 
-    async findAll(page = 1, limit = 10): Promise<PaginatedResult<Organization>> {
+    async findAll(page = 1, limit = 10): Promise<{ data: Organization[]; total: number }> {
         const [data, total] = await this.repository.findAndCount({
             skip: (page - 1) * limit,
             take: limit,

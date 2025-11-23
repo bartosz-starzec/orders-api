@@ -1,6 +1,4 @@
-import { Entity, PrimaryColumn, Column, OneToMany } from 'typeorm';
-import { User } from '../../users/entities/user.entity';
-import { Order } from '../../orders/entities/order.entity';
+import { Entity, PrimaryColumn, Column } from 'typeorm';
 
 @Entity()
 export class Organization {
