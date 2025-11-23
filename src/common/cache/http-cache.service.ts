@@ -17,25 +17,27 @@ export class HttpCacheService {
     }
 
     set<T>(key: string, value: T): void {
-        this.cache.set(key, value);
+        this.cache.set(key, value as unknown);
     }
 
     deleteKey(key: string): void {
         this.cache.delete(key);
     }
 
-    deleteByPrefix(prefix: string): void {
-        for (const key of this.cache.keys()) {
-            console.log('key', key);
-            console.log('prefix', prefix);
-            if (key.startsWith(prefix)) {
-                console.log('prefix', prefix);
-                this.cache.delete(key);
-            }
-        }
-    }
-
     clear(): void {
         this.cache.clear();
+    }
+
+    isHealthy(): boolean {
+        try {
+            const k = '__cache_probe__';
+            this.cache.set(k, 1);
+            const v = this.cache.get(k);
+            this.cache.delete(k);
+
+            return v === 1;
+        } catch {
+            return false;
+        }
     }
 }
