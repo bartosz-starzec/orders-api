@@ -21,7 +21,7 @@ services:
         env_file:
             - .env
         ports:
-            - '3000:3000'
+            - '3005:3005'
         depends_on:
             db:
                 condition: service_healthy
@@ -33,7 +33,7 @@ services:
             DB_USER: root
             DB_PASS: password
             DB_NAME: servernode
-            JWT_SECRET: changeme
+            JWT_SECRET: changemew
 
 volumes:
     db_data:
