@@ -12,7 +12,7 @@ async function bootstrap() {
     app.useGlobalFilters(new AllExceptionsFilter());
 
     const config = new DocumentBuilder()
-        .setTitle('Interview Task API')
+        .setTitle('Orders API')
         .setDescription('API documentation for Users, Orders, and Organizations')
         .setVersion('1.0')
         .addBearerAuth()
