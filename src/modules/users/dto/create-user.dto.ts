@@ -12,7 +12,7 @@ export const CreateUserSchema = z.object({
         .string()
         .transform((s) => s.trim())
         .refine((s) => s.length > 0, { message: 'lastName must not be empty' }),
-    email: z.string().trim().email(),
+    email: z.email(),
     organizationId: z.uuid(),
 });
 

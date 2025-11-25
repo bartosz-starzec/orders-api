@@ -18,6 +18,7 @@ const AppDataSource = new DataSource({
 function randomDateInPast() {
     const now = new Date();
     const past = new Date(now.getFullYear() - 1, 0, 1);
+
     return new Date(past.getTime() + Math.random() * (now.getTime() - past.getTime()));
 }
 

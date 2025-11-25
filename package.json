@@ -1,5 +1,5 @@
 {
-    "name": "interview-task",
+    "name": "orders-api",
     "version": "0.0.1",
     "description": "",
     "author": "",
@@ -9,14 +9,14 @@
     "scripts": {
         "start:dev": "nest start --watch",
         "build": "nest build && echo 'Build completed'",
-        "start": "node dist/main.js",
-        "start:prod": "node dist/main.js",
+        "start": "node dist/src/main.js",
+        "start:prod": "node dist/src/main.js",
         "seed": "ts-node -r tsconfig-paths/register src/database/seed/seed.ts",
         "test": "jest",
         "typeorm": "typeorm-ts-node-commonjs --dataSource data-source.ts",
-        "migration:generate": "pnpm run typeorm migration:generate src/database/migrations/InitMigration",
-        "migration:run": "pnpm run typeorm migration:run",
-        "migration:revert": "pnpm run typeorm migration:revert",
+        "migration:generate": "npm run typeorm migration:generate src/database/migrations/InitMigration",
+        "migration:run": "npm run typeorm migration:run",
+        "migration:revert": "npm run typeorm migration:revert",
         "create:migration": "ts-node -r tsconfig-paths/register scripts/create-migration.ts"
     },
     "dependencies": {
@@ -32,6 +32,7 @@
         "@types/winston": "^2.4.4",
         "class-transformer": "^0.5.1",
         "class-validator": "^0.14.2",
+        "dayjs": "^1.11.19",
         "dotenv": "16.4.5",
         "lru-cache": "^11.2.2",
         "mysql2": "^3.15.3",

@@ -1,17 +1,13 @@
-FROM node:20-alpine
+FROM node:20
 
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml ./
-
-RUN corepack enable && corepack install
-
-RUN pnpm install --frozen-lockfile
+COPY package*.json ./
+RUN npm ci
 
 COPY . .
 
-RUN pnpm build
+RUN npm run build
 
 EXPOSE 3005
-
-CMD ["pnpm", "start:prod"]
+CMD ["node", "dist/main.js"]

@@ -1,10 +1,11 @@
 import { Order } from '../entities/order.entity';
 import { OrderDto } from '../dto/output-order.dto';
+import dayjs from 'dayjs';
 
 export function toOrderDto(order: Order): OrderDto {
     const dto: OrderDto = {
         id: order.id,
-        orderDate: order.orderDate.toString(),
+        orderDate: dayjs(order.orderDate).format('YYYY-MM-DD HH:mm:ss'),
         totalAmount: Number(order.totalAmount),
         userId: order.userId,
         organizationId: order.organizationId,

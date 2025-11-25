@@ -10,16 +10,10 @@ Tech stack: Node.js, TypeScript, NestJS, MySQL (TypeORM), Swagger, Docker.
 
 Prerequisites:
 - Docker Desktop (with docker compose)
-- curl (optional), jq (optional)
+- curl (optional)
+- jq (optional)
 
-1) Create a local docker-compose override (ensures consistent env and avoids bind-mount issues)
-
-This override:
-- disables mounting the host directory into the app container (prevents node_modules from being shadowed)
-- sets DB variables expected by the app
-- provides a JWT secret for auth
-
-2) Build and start containers
+### 1) Build and start containers
 
 ```
 docker compose down -v
@@ -28,26 +22,26 @@ docker compose up -d
 docker compose ps
 ```
 
-3) Run migrations
+### 2) Run migrations
 
 ```
-docker compose exec app pnpm run migration:run
+docker compose exec app npm run migration:run
 ```
 
-4) Seed initial data (2 orgs, 10 users, 20 orders)
+### 3) Seed initial data (2 orgs, 10 users, 20 orders)
 
 ```
-docker compose exec app pnpm run seed
+docker compose exec app npm run seed
 ```
 
-5) Health checks
+### 4) Health checks
 
 ```
 curl -s http://localhost:3005/health | jq
 curl -s http://localhost:3005/readiness | jq
 ```
 
-6) Get a JWT token (login with a seeded user, e.g. user1@example.com)
+### 5) Get a JWT token (login with a seeded user, e.g. user1@example.com)
 
 ```
 ACCESS_TOKEN=$(curl -s -X POST http://localhost:3005/api/auth/login \
@@ -56,7 +50,7 @@ ACCESS_TOKEN=$(curl -s -X POST http://localhost:3005/api/auth/login \
 echo "$ACCESS_TOKEN"
 ```
 
-7) Call the API (authorized)
+### 6) Call the API (authorized)
 
 - List users (paginated)
 
@@ -79,18 +73,18 @@ curl -s "http://localhost:3005/api/orders" \
   -H "Authorization: Bearer $ACCESS_TOKEN" | jq
 ```
 
-8) Swagger (OpenAPI)
+### 7) Swagger (OpenAPI)
 
 - URL: http://localhost:3005/swagger
 - If protected, click "Authorize" and paste the token (without "Bearer" prefix).
 
-9) Run unit tests (inside container)
+### 8) Run unit tests (inside container)
 
 ```
-docker compose exec app pnpm test
+docker compose exec app npm test
 ```
 
-10) Stop and clean up
+### 9) Stop and clean up
 
 ```
 docker compose down -v
@@ -102,36 +96,35 @@ docker compose down -v
 
 Prerequisites:
 - Node.js 20+
-- pnpm 8.x
 - MySQL 8
 - A running database and a configured .env
 
-1) Install dependencies
+### 1) Install dependencies
 
 ```
-pnpm install
+npm install
 ```
 
-2) Configure environment
+### 2) Configure environment
 
 - Create a .env file based on .env.example
 - Ensure the following variables exist and match your DB:
   - DB_HOST, DB_PORT, DB_USER, DB_PASS, DB_NAME
   - JWT_SECRET
 
-3) Run migrations and seed
+### 3) Run migrations and seed
 
 ```
-pnpm run migration:run
-pnpm run seed
+npm run migration:run
+npm run seed
 ```
 
-4) Start the app
+### 4) Start the app
 
 ```
-pnpm run start:dev
+npm run start:dev
 # or
-pnpm run build && pnpm start
+npm run build && pnpm start
 ```
 
 ---
@@ -140,17 +133,17 @@ pnpm run build && pnpm start
 
 - Run migrations:
 ```
-pnpm run migration:run
+npm run migration:run
 ```
 
 - Revert last migration:
 ```
-pnpm run migration:revert
+npm run migration:revert
 ```
 
 - Generate a new migration (example):
 ```
-pnpm run migration:generate src/database/migrations/AddSomething
+npm run migration:generate src/database/migrations/AddSomething
 ```
 
 Note: The CLI uses data-source.ts located at the project root.

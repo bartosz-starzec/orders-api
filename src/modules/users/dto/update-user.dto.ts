@@ -12,7 +12,7 @@ export const UpdateUserSchema = z.object({
         .transform((s) => s.trim())
         .refine((s) => s.length > 0, { message: 'lastName must not be empty' })
         .optional(),
-    email: z.string().trim().email().optional(),
+    email: z.email().optional(),
     organizationId: z.uuid().optional(),
 });
 

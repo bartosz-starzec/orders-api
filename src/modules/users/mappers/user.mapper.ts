@@ -1,5 +1,6 @@
 import { User } from '../entities/user.entity';
 import { UserDto } from '../dto/output-user.dto';
+import dayjs from 'dayjs';
 
 export function toUserDto(user: User): UserDto {
     return {
@@ -8,6 +9,6 @@ export function toUserDto(user: User): UserDto {
         lastName: user.lastName,
         email: user.email,
         organizationId: user.organizationId,
-        dateCreated: user.dateCreated.toString(),
+        dateCreated: dayjs(user.dateCreated).format('YYYY-MM-DD HH:mm:ss'),
     };
 }
