@@ -16,6 +16,7 @@ Prerequisites:
 ### 1) Build and start containers
 
 ```
+cp .env.example .env
 docker compose down -v
 docker compose build --no-cache
 docker compose up -d
@@ -102,6 +103,7 @@ Prerequisites:
 ### 1) Install dependencies
 
 ```
+cp .env.example .env
 npm install
 ```
 
@@ -124,7 +126,7 @@ npm run seed
 ```
 npm run start:dev
 # or
-npm run build && pnpm start
+npm run build && npm start
 ```
 
 ---
